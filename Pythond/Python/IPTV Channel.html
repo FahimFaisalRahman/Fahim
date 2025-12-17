@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud TV - IPTV Streaming</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --dark-bg: #141414;
+            --card-bg: #1a1a1a;
+            --light-text: #fff;
+            --accent-color: #ffd700;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .navbar {
+            background-color: rgba(20, 20, 20, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--light-text) !important;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 25px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #f40612;
+            border-color: #f40612;
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+        
+        .channel-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            border: none;
+            height: 100%;
+        }
+        
+        .channel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .channel-img {
+            height: 150px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .channel-name {
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .channel-group {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .play-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .play-btn:hover {
+            background-color: #f40612;
+            transform: scale(1.1);
+        }
+        
+        .player-section {
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        #videoPlayer {
+            width: 100%;
+            height: 400px;
+            background-color: #000;
+        }
+        
+        .channel-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 30px;
+            padding: 10px 20px;
+            color: white;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .category-badge {
+            background-color: rgba(229, 9, 20, 0.2);
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-badge:hover, .category-badge.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        footer {
+            background-color: #0a0a0a;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-icons a {
+            color: #aaa;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .channel-img {
+                height: 120px;
+            }
+            
+            #videoPlayer {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-cloud me-2"></i>Cloud TV
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#channels">Channels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1 class="hero-title">Stream Your Favorite Channels</h1>
+            <p class="hero-subtitle">Access thousands of live TV channels from around the world with our premium IPTV service. No subscription required.</p>
+            <a href="#channels" class="btn btn-primary btn-lg">Start Watching</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Search Section -->
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search for channels...">
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="row mb-4" id="categories">
+            <div class="col-12">
+                <h2 class="section-title">Categories</h2>
+                <div id="categoryList">
+                    <!-- Categories will be dynamically generated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="player-section">
+                    <video id="videoPlayer" controls>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="channel-info">
+                    <h3 id="currentChannelName">Select a channel to start streaming</h3>
+                    <p id="currentChannelGroup" class="text-muted"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Channels Grid -->
+        <div class="row" id="channels">
+            <div class="col-12">
+                <h2 class="section-title">All Channels</h2>
+            </div>
+            <div class="col-12">
+                <div class="row" id="channelsGrid">
+                    <!-- Channels will be dynamically generated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-cloud me-2"></i>Cloud TV</h5>
+                    <p class="text-muted">Your premium IPTV streaming service with thousands of channels from around the world.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="#home">Home</a><br>
+                        <a href="#channels">Channels</a><br>
+                        <a href="#categories">Categories</a><br>
+                        <a href="#about">About</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p class="text-muted">&copy; 2023 Cloud TV. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample channel data extracted from the M3U8 playlist
+        const channels = [
+            { name: "Gazi TV", group: "Bangladeshi", url: "http://itpolly.iptv.digijadoo.net/live/gazi_tv/chunks.m3u8" },
+            { name: "D Sports", group: "Sports", url: "http://jiocgehub.jio.ril.com/Dsports_HD/Dsports_HD_800.m3u8" },
+            { name: "NatGeo Wild", group: "Documentary", url: "https://itpolly.iptv.digijadoo.net/live/nat_geo_wild/chunks.m3u8" },
+            { name: "ZEE TV", group: "Hindi", url: "https://itpolly.iptv.digijadoo.net/live/zee_tv/chunks.m3u8" },
+            { name: "Star Plus HD", group: "Hindi", url: "https://itpolly.iptv.digijadoo.net/live/star_plus_hd/chunks.m3u8" },
+            { name: "Colors HD", group: "Hindi", url: "https://itpolly.iptv.digijadoo.net/live/colors_hd/chunks.m3u8" },
+            { name: "Maasranga", group: "Bangladeshi", url: "https://itpolly.iptv.digijadoo.net/live/maasranga/chunks.m3u8" },
+            { name: "ATN Bangla", group: "Bangladeshi", url: "https://itpolly.iptv.digijadoo.net/live/atn_bangla/chunks.m3u8" },
+            { name: "BTV World", group: "Bangladeshi", url: "https://itpolly.iptv.digijadoo.net/live/btv_world/chunks.m3u8" },
+            { name: "Channel 9", group: "Bangladeshi", url: "https://itpolly.iptv.digijadoo.net/live/channel_9/chunks.m3u8" },
+            { name: "NTV", group: "Bangladeshi", url: "https://itpolly.iptv.digijadoo.net/live/ntv/chunks.m3u8" },
+            { name: "Colors Bangla", group: "Indian Bangla", url: "https://itpolly.iptv.digijadoo.net/live/colors_bangla_hd/playlist.m3u8" },
+            { name: "Star Jalsha", group: "Indian Bangla", url: "https://itpolly.iptv.digijadoo.net/live/star_jalsha_hd/playlist.m3u8" },
+            { name: "BBC World News", group: "News", url: "https://itpolly.iptv.digijadoo.net/live/bbc_world/playlist.m3u8" },
+            { name: "CNN", group: "News", url: "https://itpolly.iptv.digijadoo.net/live/cnn/playlist.m3u8" },
+            { name: "Al Jazeera", group: "News", url: "https://itpolly.iptv.digijadoo.net/live/al_jazeera/playlist.m3u8" },
+            { name: "FOX Life", group: "Entertainment", url: "https://itpolly.iptv.digijadoo.net/live/fox_life/chunks.m3u8" },
+            { name: "History TV", group: "Documentary", url: "https://itpolly.iptv.digijadoo.net/live/history_tv_hd/chunks.m3u8" },
+            { name: "MTV Beats", group: "Music", url: "https://itpolly.iptv.digijadoo.net/live/mtv_beats/chunks.m3u8" },
+            { name: "Zing", group: "Music", url: "https://itpolly.iptv.digijadoo.net/live/zing/chunks.m3u8" },
+            { name: "Sony Ten 1", group: "Sports", url: "http://103.205.133.14/hls/ten1.m3u8" },
+            { name: "Sony Ten 2", group: "Sports", url: "http://103.205.133.14/hls/ten2.m3u8" },
+            { name: "Star Sports 1", group: "Sports", url: "http://iptv.kitv.live:1935/live/Shari/MTV-P/161.m3u8" },
+            { name: "PTV Sports", group: "Sports", url: "http://livetv.colorsbd.com:8081/hdcrictv/ctg_ptvsports/chunks.m3u8" },
+            { name: "Cartoon Network", group: "Kids", url: "http://iptv.kitv.live:1935/live/Shari/MTV-P/170.m3u8" },
+            { name: "Nick", group: "Kids", url: "https://itpolly.iptv.digijadoo.net/live/nickelodeon/chunks.m3u8" },
+            { name: "Sony Yay", group: "Kids", url: "http://iptv.kitv.live:1935/live/Shari/MTV-P/172.m3u8" }
+        ];
+
+        // Extract unique categories
+        const categories = [...new Set(channels.map(channel => channel.group))];
+
+        // DOM elements
+        const channelsGrid = document.getElementById('channelsGrid');
+        const categoryList = document.getElementById('categoryList');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const currentChannelName = document.getElementById('currentChannelName');
+        const currentChannelGroup = document.getElementById('currentChannelGroup');
+        const searchInput = document.getElementById('searchInput');
+
+        // Initialize the page
+        function init() {
+            renderCategories();
+            renderChannels(channels);
+            setupEventListeners();
+        }
+
+        // Render categories
+        function renderCategories() {
+            categoryList.innerHTML = '';
+            
+            // Add "All" category
+            const allCategory = document.createElement('span');
+            allCategory.className = 'category-badge active';
+            allCategory.textContent = 'All';
+            allCategory.dataset.category = 'all';
+            categoryList.appendChild(allCategory);
+            
+            // Add other categories
+            categories.forEach(category => {
+                const categoryBadge = document.createElement('span');
+                categoryBadge.className = 'category-badge';
+                categoryBadge.textContent = category;
+                categoryBadge.dataset.category = category;
+                categoryList.appendChild(categoryBadge);
+            });
+        }
+
+        // Render channels
+        function renderChannels(channelsToRender) {
+            channelsGrid.innerHTML = '';
+            
+            if (channelsToRender.length === 0) {
+                channelsGrid.innerHTML = '<div class="col-12 text-center"><p>No channels found.</p></div>';
+                return;
+            }
+            
+            channelsToRender.forEach(channel => {
+                const col = document.createElement('div');
+                col.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+                
+                col.innerHTML = `
+                    <div class="channel-card">
+                        <div class="card-body text-center p-3">
+                            <div class="mb-3">
+                                <i class="fas fa-tv fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="channel-name">${channel.name}</h5>
+                            <p class="channel-group">${channel.group}</p>
+                            <button class="play-btn mt-2" data-url="${channel.url}" data-name="${channel.name}" data-group="${channel.group}">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                channelsGrid.appendChild(col);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category filter
+            categoryList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('category-badge')) {
+                    // Update active category
+                    document.querySelectorAll('.category-badge').forEach(badge => {
+                        badge.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                    
+                    const selectedCategory = e.target.dataset.category;
+                    
+                    if (selectedCategory === 'all') {
+                        renderChannels(channels);
+                    } else {
+                        const filteredChannels = channels.filter(channel => channel.group === selectedCategory);
+                        renderChannels(filteredChannels);
+                    }
+                }
+            });
+            
+            // Play channel
+            channelsGrid.addEventListener('click', (e) => {
+                if (e.target.closest('.play-btn')) {
+                    const btn = e.target.closest('.play-btn');
+                    const url = btn.dataset.url;
+                    const name = btn.dataset.name;
+                    const group = btn.dataset.group;
+                    
+                    playChannel(url, name, group);
+                }
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                if (searchTerm.length === 0) {
+                    // Reset to current category
+                    const activeCategory = document.querySelector('.category-badge.active').dataset.category;
+                    
+                    if (activeCategory === 'all') {
+                        renderChannels(channels);
+                    } else {
+                        const filteredChannels = channels.filter(channel => channel.group === activeCategory);
+                        renderChannels(filteredChannels);
+                    }
+                } else {
+                    const filteredChannels = channels.filter(channel => 
+                        channel.name.toLowerCase().includes(searchTerm) || 
+                        channel.group.toLowerCase().includes(searchTerm)
+                    );
+                    renderChannels(filteredChannels);
+                }
+            });
+        }
+
+        // Play selected channel
+        function playChannel(url, name, group) {
+            currentChannelName.textContent = name;
+            currentChannelGroup.textContent = group;
+            
+            // Try to play the stream
+            videoPlayer.src = url;
+            videoPlayer.load();
+            
+            videoPlayer.play().catch(error => {
+                console.error('Error playing video:', error);
+                alert('Unable to play this channel. It might be temporarily unavailable.');
+            });
+            
+            // Scroll to player
+            document.querySelector('.player-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
