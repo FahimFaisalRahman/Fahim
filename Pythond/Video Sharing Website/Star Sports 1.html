@@ -1,0 +1,1210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Star Sports 1 - Cloud TV</title>
+    
+    <link rel="icon" href="assets/logos/Cloudtv.png">
+    <link rel="apple-touch-icon" href="assets/logos/Cloudtv.png">
+    <meta name="msapplication-TileImage" content="assets/logos/Cloudtv.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/logos/logo_57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/logos/logo_60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/logos/logo_72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/logos/logo_76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/logos/logo_114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/logos/logo_120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/logos/logo_144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/logos/logo_152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/logos/logo_180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo_192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/logo_32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/logos/logo_96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/logos/logo_16x16.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/header.css" rel="stylesheet">
+    <link href="assets/css/players.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F4XZK371B9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F4XZK371B9');
+    </script>
+    
+    <style>
+        /* Font Settings */
+        body {
+            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #141414;
+            color: #fff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif !important;
+        }
+        
+        .nav-link, .btn {
+            font-family: 'Jost', sans-serif !important;
+        }
+        
+        :root {
+            --primary-color: #e50914;
+            --dark-bg: #141414;
+            --light-text: #fff;
+            --accent-color: #ffd700;
+        }
+        
+        /* Enhanced UI Elements */
+        .player-section {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            background: linear-gradient(to bottom, #000000, #141414);
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        #player, #video, .flussonic-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: none;
+        }
+        
+        /* Enhanced Channel Info */
+        .channel-info {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .channel-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .channel-title img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .channel-meta {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-direction: column;
+            align-content: flex-start;
+        }
+
+        .channel-meta .badge {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--primary-color);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        /* Stream Status Indicators */
+        .stream-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-loading {
+            background: #ff9800;
+            color: white;
+        }
+
+        .status-live {
+            background: #4caf50;
+            color: white;
+        }
+
+        .status-error {
+            background: #f44336;
+            color: white;
+        }
+
+        .status-fallback {
+            background: #2196f3;
+            color: white;
+        }
+
+        /* Error Message Styling */
+        .stream-error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stream-error h3 {
+            color: #e50914;
+            margin-bottom: 1rem;
+        }
+
+        .retry-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .retry-button:hover {
+            background: #f40612;
+            transform: translateY(-2px);
+        }
+
+        .stream-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stream-option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .stream-option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #e50914;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Quality Selector */
+        .quality-selector {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+        }
+
+        /* Related Channels Styling */
+        .related-channels {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .related-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .related-channel-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .related-channel-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .related-channel-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .related-channel-info {
+            flex: 1;
+        }
+        
+        .related-channel-name {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .related-channel-group {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: block;
+        }
+        
+        .different-group {
+            color: var(--accent-color);
+        }
+        
+        .play-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .related-channel-item:hover .play-icon {
+            transform: scale(1.2);
+        }
+        
+        /* Reporting Modal Styles */
+        .report-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .report-content {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .report-title {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .report-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .report-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .report-btn:hover {
+            background: #f40612;
+        }
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #0088cc;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .telegram-btn:hover {
+            background: #0077b3;
+            color: white;
+        }
+        .telegram-icon {
+            width: 20px;
+            margin-right: 8px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+ 
+        /* Success Message */
+        .alert {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translate(-50%, -50px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        /* Download Buttons */
+        .download-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-btn i {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+        
+        .download-btn.mobile {
+            background-color: #4a6bff;
+            border: 1px solid #4a6bff;
+        }
+        
+        .download-btn.mobile:hover {
+            background-color: #3a5bef;
+        }
+        
+        .download-btn.tv {
+            background-color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+        
+        .download-btn.tv:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .channel-title {
+                font-size: 1.5rem;
+            }
+            
+            .channel-title img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .related-channels {
+                margin-top: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .player-section {
+                border-radius: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .channel-info, .related-channels {
+                border-radius: 10px;
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .channel-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.75rem !important;
+            }
+            
+            .channel-card {
+                aspect-ratio: 16/10;
+            }
+            
+            .channel-overlay {
+                opacity: 1 !important;
+                padding: 0.5rem !important;
+            }
+            
+            .channel-name {
+                font-size: 0.85rem !important;
+            }
+            
+            .play-button {
+                opacity: 0.7 !important;
+                transform: translate(-50%, -50%) scale(0.7) !important;
+                width: 40px !important;
+                height: 40px !important;
+            }
+        }
+    </style>
+</head>
+<body class="player-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="assets/logos/Cloudtv.png" alt="Cloudtv" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Desktop Navigation -->
+                <ul class="navbar-nav ms-auto desktop-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.php#Bangladeshi">Bangladeshi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#CloudTV">CloudTV</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#English">English</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Foreign">Foreign</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Hindi">Hindi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Indian-Bangla">Indian Bangla</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Infotainment">Infotainment</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Kids">Kids</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Music">Music</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#News">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Religious">Religious</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Sports">Sports</a></li>
+                </ul>
+
+                <!-- Mobile Navigation -->
+                <ul class="navbar-nav ms-auto mobile-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.php#Bangladeshi">Bangladeshi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#CloudTV">CloudTV</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#English">English</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Foreign">Foreign</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Hindi">Hindi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Indian-Bangla">Indian Bangla</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Infotainment">Infotainment</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Kids">Kids</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Music">Music</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#News">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Religious">Religious</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#Sports">Sports</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Current Channel Display -->
+    <div class="current-channel-bar">
+        <div class="container">
+            <span class="current-channel-name">
+                <i class="fas fa-play-circle"></i> 
+                Star Sports 1
+            </span>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="player-section">
+                    <!-- Status Indicator -->
+                    <div id="streamStatus" class="stream-status status-loading">
+                        <i class="fas fa-sync-alt fa-spin"></i> Loading Star Sports 1...
+                    </div>
+
+                    <!-- Main Flussonic Player (Hidden Initially) -->
+                    <iframe id="flussonic-player-iframe" class="flussonic-player" allowfullscreen style="display:none;"></iframe>
+                    
+                    <!-- Fallback HLS Player -->
+                    <div id="fallback-player" style="display: none;">
+                        <video id="hls-video" controls width="100%" height="100%">
+                            Your browser doesn't support HTML5 video.
+                        </video>
+                        <div class="quality-selector" id="qualitySelector" style="display: none;">
+                            Quality: <span id="currentQuality">Auto</span>
+                        </div>
+                    </div>
+
+                    <!-- Error Display -->
+                    <div id="streamError" class="stream-error" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <h3><i class="fas fa-exclamation-triangle"></i> Stream Unavailable</h3>
+                        <p id="errorMessage">Star Sports 1 stream is currently experiencing issues.</p>
+                        <div class="stream-options">
+                            <button class="retry-button" onclick="streamManager.retryAllMethods()">
+                                <i class="fas fa-redo"></i> Retry All Methods
+                            </button>
+                            <button class="stream-option-btn" onclick="streamManager.tryMethod('flussonic')">
+                                Try Original Player
+                            </button>
+                            <button class="stream-option-btn" onclick="streamManager.tryMethod('hls')">
+                                Try HLS Stream
+                            </button>
+                            <button class="stream-option-btn" onclick="streamManager.tryMethod('m3u8')">
+                                Try Direct Stream
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Falcon Cast App Download Notice Marquee -->
+                <marquee scrollamount="5" behavior="scroll" direction="left">
+                    <a href="download.php?type=mobile&channelId=1753783940795" target="_blank" 
+                       style="color: #FFEB3B; font-size: 24px; font-weight: bold; text-decoration: none;">
+                        📺 স্মার্ট টিভি, অ্যান্ড্রয়েড টিভি এবং 📱 অ্যান্ড্রয়েড ফোনে সকল চ্যানেল দেখতে এখনই ডাউনলোড করুন — Falcon Cast App!
+                    </a>
+                </marquee>
+
+                <div class="channel-info">
+                    <h1 class="channel-title">
+                        <img src="http://172.19.178.178/tv/img/starsports1.png" 
+                             alt="Star Sports 1"
+                             onerror="this.src='assets/default-channel.png'">
+                        Star Sports 1
+                    </h1>
+                    
+                    <div class="channel-meta">
+                        <span class="report-btn-container report-btn">
+                            <i class="fas fa-layer-group me-2"></i>
+                            Sports
+                        </span>
+                        
+                        <span class="report-btn-container">
+                            <button id="reportButton" class="report-btn">
+                                <i class="fas fa-flag"></i> Report Issue
+                            </button>
+                        </span>
+                           
+                        <a href="download.php?type=mobile&channelId=1753783940795" class="download-btn mobile">
+                            <i class="fas fa-mobile-alt"></i> Download Mobile & TV APK
+                        </a>
+                
+                        <img src="https://hitscounter.dev/api/hit?url=http%3A%2F%2F172.19.178.180%2Fplay.php&label=Visitors&icon=graph-up-arrow&color=%23dc3545&message=&style=for-the-badge&tz=Asia%2FDhaka">
+             
+                        <a hidden href="https://hits.sh/172.19.178.180/play.php/">
+                            <img alt="Hits" src="https://hits.sh/172.19.178.180/play.php.svg?view=today-total&style=for-the-badge"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="related-channels">
+                    <h2 class="related-title">
+                        <i class="fas fa-play-circle me-2"></i>
+                        More from Sports
+                    </h2>
+                    
+                    <!-- Your existing related channels list -->
+                    <a href="play.php?id=1757850182944" class="related-channel-item">
+                        <img src="http://172.19.178.178/tv/img/tsports.png" alt="T Sports" onerror="this.src='assets/default-channel.png'">
+                        <div class="related-channel-info">
+                            <span class="related-channel-name">T Sports</span>
+                            <span class="related-channel-group">Sports</span>
+                        </div>
+                        <div class="play-icon"><i class="fas fa-play"></i></div>
+                    </a>
+                    
+                    <!-- Add other related channels as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
+    <script>
+        // Comprehensive Star Sports 1 Stream Manager
+        class StarSports1StreamManager {
+            constructor() {
+                this.currentMethod = null;
+                this.retryCount = 0;
+                this.maxRetries = 3;
+                this.hlsPlayer = null;
+                this.isPlaying = false;
+                
+                // Stream sources for Star Sports 1
+                this.streamSources = {
+                    flussonic: {
+                        name: 'Official Player',
+                        url: 'aHR0cDovLzE3Mi4xOS4xNzguNDk6MTgxOTAvc3Rhcl9zcG9ydHNfMV9oZC9lbWJlZC5odG1sP3Rva2VuPWY1ODJkNTgyYjBmYmU3ODBjZWI5ZWViODY0Yzc3ZGI0YmRiOWRmOTktZmFjMjExYWUyNzU0OTIxY2Q5NmRlMzZmOThmZTYyZmYtMTc2MTIyNTc1NS0xNzYxMjE0OTU1JmF1dG9wbGF5PWZhbHNlJm11dGU9ZmFsc2U=',
+                        active: true
+                    },
+                    hls: {
+                        name: 'HLS Stream',
+                        urls: [
+                            'http://172.19.178.49:18190/star_sports_1_hd/index.m3u8',
+                            'http://172.19.178.49:18190/star_sports_1_hd/playlist.m3u8',
+                            'http://172.19.178.49:18190/star_sports_1_hd/master.m3u8'
+                        ],
+                        active: true
+                    },
+                    m3u8: {
+                        name: 'Direct Stream',
+                        urls: [
+                            'http://172.19.178.49:18190/star_sports_1_hd/tracks-v1/mono.m3u8',
+                            'http://172.19.178.49:18190/star_sports_1_hd/star_sports_1_hd.m3u8'
+                        ],
+                        active: true
+                    }
+                };
+            }
+
+            // Initialize the stream manager
+            async init() {
+                this.updateStatus('loading', 'Loading Star Sports 1...');
+                
+                // Try methods in order of preference
+                await this.tryMethod('flussonic');
+                
+                // Start health monitoring
+                this.startHealthMonitor();
+            }
+
+            // Try a specific streaming method
+            async tryMethod(method) {
+                this.hideError();
+                this.updateStatus('loading', `Trying ${this.streamSources[method].name}...`);
+                
+                // Hide all players first
+                this.hideAllPlayers();
+                
+                switch(method) {
+                    case 'flussonic':
+                        await this.tryFlussonic();
+                        break;
+                    case 'hls':
+                        await this.tryHLS();
+                        break;
+                    case 'm3u8':
+                        await this.tryM3U8();
+                        break;
+                }
+                
+                this.currentMethod = method;
+            }
+
+            // Try the original Flussonic player
+            async tryFlussonic() {
+                return new Promise((resolve) => {
+                    const encodedUrl = this.streamSources.flussonic.url;
+                    const decodedUrl = atob(encodedUrl);
+                    const iframe = document.getElementById('flussonic-player-iframe');
+                    
+                    // Add cache busting
+                    const finalUrl = decodedUrl + '&_t=' + Date.now();
+                    
+                    iframe.src = finalUrl;
+                    iframe.style.display = 'block';
+                    
+                    const timeout = setTimeout(() => {
+                        console.log('Flussonic player timeout');
+                        this.showError('Official player failed to load', 'flussonic');
+                        resolve(false);
+                    }, 8000);
+                    
+                    iframe.onload = () => {
+                        clearTimeout(timeout);
+                        
+                        // Try to detect iframe content (limited due to CORS)
+                        try {
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            const bodyText = iframeDoc.body.innerText || '';
+                            
+                            if (this.isBlockedContent(bodyText)) {
+                                this.showError('Stream protection blocked access', 'flussonic');
+                                resolve(false);
+                            } else {
+                                this.updateStatus('live', 'Star Sports 1 - LIVE');
+                                this.isPlaying = true;
+                                resolve(true);
+                            }
+                        } catch (e) {
+                            // Cross-origin - assume success for now
+                            this.updateStatus('live', 'Star Sports 1 - LIVE');
+                            this.isPlaying = true;
+                            resolve(true);
+                        }
+                    };
+                    
+                    iframe.onerror = () => {
+                        clearTimeout(timeout);
+                        this.showError('Official player failed to load', 'flussonic');
+                        resolve(false);
+                    };
+                });
+            }
+
+            // Try HLS.js player
+            async tryHLS() {
+                if (!Hls.isSupported()) {
+                    this.showError('HLS not supported in your browser', 'hls');
+                    return false;
+                }
+
+                const video = document.getElementById('hls-video');
+                const fallbackPlayer = document.getElementById('fallback-player');
+                
+                // Initialize HLS player
+                this.hlsPlayer = new Hls({
+                    debug: false,
+                    enableWorker: false,
+                    lowLatencyMode: true,
+                    backBufferLength: 90,
+                    maxMaxBufferLength: 60,
+                    maxBufferSize: 30 * 1000 * 1000,
+                    maxBufferLength: 30,
+                    liveSyncDurationCount: 3
+                });
+
+                fallbackPlayer.style.display = 'block';
+                video.style.display = 'block';
+
+                return new Promise((resolve) => {
+                    let currentSourceIndex = 0;
+                    
+                    const tryNextSource = () => {
+                        if (currentSourceIndex >= this.streamSources.hls.urls.length) {
+                            this.showError('All HLS streams failed', 'hls');
+                            resolve(false);
+                            return;
+                        }
+
+                        const sourceUrl = this.streamSources.hls.urls[currentSourceIndex];
+                        console.log(`Trying HLS source: ${sourceUrl}`);
+
+                        this.hlsPlayer.loadSource(sourceUrl);
+                        this.hlsPlayer.attachMedia(video);
+
+                        this.hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
+                            console.log('HLS manifest parsed successfully');
+                            this.updateStatus('live', 'Star Sports 1 - LIVE (HLS)');
+                            this.isPlaying = true;
+                            
+                            // Show quality selector
+                            this.setupQualitySelector();
+                            resolve(true);
+                        });
+
+                        this.hlsPlayer.on(Hls.Events.ERROR, (event, data) => {
+                            if (data.fatal) {
+                                console.log(`HLS source ${currentSourceIndex + 1} failed:`, data);
+                                currentSourceIndex++;
+                                
+                                if (this.hlsPlayer) {
+                                    this.hlsPlayer.destroy();
+                                }
+                                
+                                setTimeout(tryNextSource, 1000);
+                            }
+                        });
+                    };
+
+                    tryNextSource();
+                });
+            }
+
+            // Try direct M3U8 streams
+            async tryM3U8() {
+                const video = document.getElementById('hls-video');
+                const fallbackPlayer = document.getElementById('fallback-player');
+                
+                fallbackPlayer.style.display = 'block';
+                video.style.display = 'block';
+
+                // Use native video element for direct M3U8
+                video.src = this.streamSources.m3u8.urls[0];
+                
+                return new Promise((resolve) => {
+                    video.load();
+                    
+                    const canPlayTimeout = setTimeout(() => {
+                        this.showError('Direct stream failed to load', 'm3u8');
+                        resolve(false);
+                    }, 10000);
+                    
+                    video.oncanplay = () => {
+                        clearTimeout(canPlayTimeout);
+                        video.play().then(() => {
+                            this.updateStatus('live', 'Star Sports 1 - LIVE (Direct)');
+                            this.isPlaying = true;
+                            resolve(true);
+                        }).catch(e => {
+                            console.log('Autoplay failed:', e);
+                            this.updateStatus('live', 'Star Sports 1 - LIVE (Click to play)');
+                            this.isPlaying = true;
+                            resolve(true);
+                        });
+                    };
+                    
+                    video.onerror = () => {
+                        clearTimeout(canPlayTimeout);
+                        this.showError('Direct stream failed', 'm3u8');
+                        resolve(false);
+                    };
+                });
+            }
+
+            // Setup quality selector for HLS
+            setupQualitySelector() {
+                if (!this.hlsPlayer) return;
+                
+                const qualitySelector = document.getElementById('qualitySelector');
+                const currentQuality = document.getElementById('currentQuality');
+                
+                this.hlsPlayer.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+                    const levels = this.hlsPlayer.levels;
+                    if (levels && levels.length > 1) {
+                        qualitySelector.style.display = 'block';
+                        
+                        // Update current quality
+                        const currentLevel = this.hlsPlayer.currentLevel;
+                        if (currentLevel > -1 && levels[currentLevel]) {
+                            const height = levels[currentLevel].height;
+                            currentQuality.textContent = height ? `${height}p` : 'Auto';
+                        }
+                    }
+                });
+            }
+
+            // Retry all available methods
+            async retryAllMethods() {
+                this.retryCount++;
+                
+                if (this.retryCount > this.maxRetries) {
+                    this.showError('Maximum retry attempts reached. Please try again later.', 'all');
+                    return;
+                }
+                
+                this.updateStatus('loading', `Retrying streams... (Attempt ${this.retryCount}/${this.maxRetries})`);
+                
+                // Try methods in sequence
+                if (await this.tryMethod('flussonic')) return;
+                if (await this.tryMethod('hls')) return;
+                if (await this.tryMethod('m3u8')) return;
+                
+                this.showError('All streaming methods failed', 'all');
+            }
+
+            // Monitor stream health
+            startHealthMonitor() {
+                setInterval(() => {
+                    if (this.isPlaying) {
+                        this.checkStreamHealth();
+                    }
+                }, 30000); // Check every 30 seconds
+            }
+
+            // Check if content is blocked
+            isBlockedContent(text) {
+                return text.includes('403') || 
+                       text.includes('Unauthorized') ||
+                       text.includes('Streamer protection') ||
+                       text.includes('Access Denied');
+            }
+
+            // Update status display
+            updateStatus(type, message) {
+                const statusElement = document.getElementById('streamStatus');
+                statusElement.className = `stream-status status-${type}`;
+                
+                let icon = 'fa-info-circle';
+                if (type === 'loading') icon = 'fa-sync-alt fa-spin';
+                if (type === 'live') icon = 'fa-broadcast-tower';
+                if (type === 'error') icon = 'fa-exclamation-triangle';
+                if (type === 'fallback') icon = 'fa-satellite-dish';
+                
+                statusElement.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+                statusElement.style.display = 'block';
+            }
+
+            // Show error message
+            showError(message, method) {
+                this.isPlaying = false;
+                this.updateStatus('error', `Star Sports 1 - ${method.toUpperCase()} Failed`);
+                
+                const errorElement = document.getElementById('streamError');
+                const errorMessage = document.getElementById('errorMessage');
+                
+                errorMessage.textContent = message;
+                errorElement.style.display = 'flex';
+                
+                // Hide all players
+                this.hideAllPlayers();
+            }
+
+            // Hide error message
+            hideError() {
+                const errorElement = document.getElementById('streamError');
+                errorElement.style.display = 'none';
+            }
+
+            // Hide all players
+            hideAllPlayers() {
+                document.getElementById('flussonic-player-iframe').style.display = 'none';
+                document.getElementById('fallback-player').style.display = 'none';
+                document.getElementById('hls-video').style.display = 'none';
+                
+                // Stop HLS player if active
+                if (this.hlsPlayer) {
+                    this.hlsPlayer.destroy();
+                    this.hlsPlayer = null;
+                }
+            }
+
+            // Check stream health
+            async checkStreamHealth() {
+                if (!this.isPlaying) return;
+                
+                try {
+                    // Simple fetch to check if server is reachable
+                    const response = await fetch('http://172.19.178.49:18190/', {
+                        method: 'HEAD',
+                        mode: 'no-cors'
+                    });
+                    // If we get here, server is reachable
+                } catch (error) {
+                    console.log('Stream server health check failed');
+                    // Server might be down, but don't disrupt playback if it's working
+                }
+            }
+
+            // Clean up resources
+            destroy() {
+                this.hideAllPlayers();
+                this.isPlaying = false;
+            }
+        }
+
+        // Initialize Star Sports 1 Stream Manager when page loads
+        let streamManager;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            streamManager = new StarSports1StreamManager();
+            streamManager.init();
+            
+            // Add beforeunload cleanup
+            window.addEventListener('beforeunload', function() {
+                if (streamManager) {
+                    streamManager.destroy();
+                }
+            });
+        });
+
+        // Global function for retry buttons
+        function retryStream() {
+            if (streamManager) {
+                streamManager.retryAllMethods();
+            }
+        }
+
+        // Your existing reporting functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const reportBtn = document.getElementById('reportButton');
+            const MAX_RETRIES = 2;
+            let retryCount = 0;
+
+            // Helper function for fetch with timeout
+            async function fetchWithTimeout(resource, options = {}) {
+                const { timeout = 5000 } = options;
+                
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                
+                const response = await fetch(resource, {
+                    ...options,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(id);
+                
+                return response;
+            }
+
+            function showSuccess() {
+                // Create success message element
+                const successMsg = document.createElement('div');
+                successMsg.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
+                successMsg.style.zIndex = '1100';
+                successMsg.innerHTML = `
+                    <i class="fas fa-check-circle me-2"></i>
+                    Thank you! Your report has been submitted.
+                    <button type="button" class="btn-close ms-2" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(successMsg);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    successMsg.classList.add('fade');
+                    setTimeout(() => successMsg.remove(), 150);
+                }, 5000);
+            }
+
+            function resetButton() {
+                reportBtn.innerHTML = '<i class="fas fa-flag"></i> Report Issue';
+                reportBtn.disabled = false;
+                reportBtn.classList.remove('loading');
+                retryCount = 0;
+            }
+
+            reportBtn.addEventListener('click', async function() {
+                reportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Reporting...';
+                reportBtn.disabled = true;
+                reportBtn.classList.add('loading');
+                
+                try {
+                    let response = await fetchWithTimeout('report.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            channelId: '1753783940795',
+                            channelName: 'Star Sports 1',
+                            groupName: 'Sports',
+                            action: 'report'
+                        }),
+                        timeout: 5000
+                    });
+
+                    while (!response.ok && retryCount < MAX_RETRIES) {
+                        retryCount++;
+                        response = await fetchWithTimeout('report.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 
+                                channelId: '1753783940795',
+                                channelName: 'Star Sports 1',
+                                groupName: 'Sports',
+                                action: 'report'
+                            }),
+                            timeout: 5000
+                        });
+                    }
+
+                    const data = await response.json();
+                    if (data.success) {
+                        showSuccess();
+                    } else {
+                        throw new Error(data.message || 'Server rejected report');
+                    }
+                } catch (error) {
+                    console.error('Report error:', error);
+                    
+                    // Telegram fallback
+                    const telegramUrl = `https://t.me/Cloudbdtv_bot?start=report_1753783940795_` + 
+                        encodeURIComponent(`Star Sports 1|Sports`);
+                    
+                    const shouldUseTelegram = confirm(
+                        `Report failed: ${error.message}
+
+Would you like to report via Telegram instead?`
+                    );
+                    
+                    if (shouldUseTelegram) {
+                        window.open(telegramUrl, '_blank');
+                    }
+                } finally {
+                    resetButton();
+                }
+            });
+
+            // Close button for alerts
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-close')) {
+                    e.target.closest('.alert').remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
